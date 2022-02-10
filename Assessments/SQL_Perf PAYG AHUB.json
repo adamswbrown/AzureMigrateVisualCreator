@@ -1,0 +1,20 @@
+
+{
+  "properties": {
+      "azureLocation": "uksouth", 
+      "azureOfferCode": "MSAZR0003P", 
+      "azureSqlServiceTier": "Automatic",
+      "azureSqlTargetType": "Recommended", 
+       "currency": "USD", 
+       "discountPercentage": 0, 
+       "percentile": "Percentile95", 
+       "reservedInstance": "None", 
+       "scalingFactor": 1, 
+       "sizingCriterion": "PerformanceBased", 
+       "sqlServerLicense": "Yes", 
+       "timeRange": "Month",
+       "eTag": "*"
+      
+      }
+  
+  }
