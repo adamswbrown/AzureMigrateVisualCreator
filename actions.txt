@@ -1,0 +1,70 @@
+Actions:
+Login
+Get Project Status
+    VMware
+    HyperV
+    Physical
+    CSV
+Create Groups
+    All_VM
+    All_SQL
+    All_CSV
+    VM_in_Scope
+    SQL_in_Scope
+    VM_Production
+    VM_Non_Production
+    SQL_Production
+    SQL_Non_Production
+Populate Groups - Automatically
+    All_VM
+    All_SQL
+Populate Groups - Manual
+    VM_in_Scope
+    SQL_in_Scope
+    VM_Production
+    VM_Non_Production
+    SQL_Production
+    SQL_Non_Production
+Create Assessments - Defualt 14
+    All_VM
+    All_CSV
+    VM_in_Scope
+    VM_Production
+    VM_Non_Production
+Create Assessments - Default 6
+    All_SQL
+    SQL_in_Scope   
+    SQL_Production
+    SQL_Non_Production
+Export Assessments
+    All_VM
+    All_SQL
+    All_CSV
+    VM_in_Scope
+    SQL_in_Scope
+    VM_Production
+    VM_Non_Production
+    SQL_Production
+    SQL_Non_Production
+Export JSON
+    All_VM
+    All_SQL
+    All_CSV
+    VM_in_Scope
+    SQL_in_Scope
+    VM_Production
+    VM_Non_Production
+    SQL_Production
+    SQL_Non_Production
+Create Tagging Output
+    VM_in_Scope
+    SQL_in_Scope
+    VM_Production
+    VM_Non_Production
+    SQL_Production
+    SQL_Non_Production
+Gather HealthState
+    VM
+    SQL
+    Heartbeat
+    Appliance
