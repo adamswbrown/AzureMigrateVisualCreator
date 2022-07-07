@@ -1,0 +1,17 @@
+{
+    "properties": {
+      "azureLocation": "uksouth",
+      "scalingFactor": 1,
+      "percentile": "Percentile50",
+      "timeRange": "Day",
+      "currency": "USD",
+      "discountPercentage": 0,
+      "sizingCriterion": "AsOnPremises",
+      "reservedInstance": "RI1Year",
+      "eaSubscriptionId": null,
+      "azureOfferCode": "MSAZR0003P",
+      "azureWebAppTier": "Unknown",
+      "azureWebAppTargetType": "AzureAppService"
+    },
+    "eTag": "*"
+  }

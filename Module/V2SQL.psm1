@@ -41,7 +41,7 @@ function Get-AzureMigrate-assessedSqlDatabases {
 #GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/databaseInstances?api-version=2018-09-01-preview
 
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -72,7 +72,7 @@ function Get-AzureMigrate-assessedSqlDatabase {
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -103,7 +103,7 @@ function Get-AzureMigrate-assessedSqlInstances {
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -134,7 +134,7 @@ function Get-AzureMigrate-assessedSqlinstance{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -165,7 +165,7 @@ function Get-AzureMigrate-assessedSqlMachines{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -195,7 +195,7 @@ function Get-AzureMigrate-assessedSqlMachine{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -230,7 +230,7 @@ function Get-AzureMigrate-AssessedSQLRecomendations{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -262,7 +262,7 @@ function Get-AzureMigrate-AssessedSQLRecomendation{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -293,7 +293,7 @@ function Get-AzureMigrate-SQLAssessments{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()
@@ -325,7 +325,7 @@ function Get-AzureMigrate-SQLAssessment{
     )
 #
 if($V2API){
-$APIVersion = "2022_02_02_preview"
+$APIVersion = "2022-02-02-preview"
 }
 
     #$obj = @()

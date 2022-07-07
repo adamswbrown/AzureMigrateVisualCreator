@@ -512,7 +512,7 @@ function Get-AzureMigrateDiscoveredMachine {
         $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentProjects/{2}/machines?api-version=2019-05-01&pageSize=100&%24filter=contains(Properties/DiscoveryMachineArmId,'VMwareSites/AzureMigCOL015179site')" -f $SubscriptionID, $ResourceGroup, $Project
     }
     if ($IIS) {
-        $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentProjects/{2}/machines?api-version=2019-05-01&pageSize=100&%24filter=(Properties%2FIsDeleted%20eq%20false)%20and%20(Properties%2FWebAppDiscovery%2FTotalWebServerCount%20gt%200)%26totalRecordCount%3D266" -f $SubscriptionID, $ResourceGroup, $Project
+        $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentProjects/{2}/machines?api-version=2019-05-01&pageSize=100&%24filter=(Properties%2FIsDeleted%20eq%20false)%20and%20(Properties%2FWebAppsCount%20gt%200)%26totalRecordCount%3D266" -f $SubscriptionID, $ResourceGroup, $Project
     }
     if ($SQL_new) {
         $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentProjects/{2}/machines?api-version=2019-05-01&pageSize=100&%26%60%24filter%3D(Properties%2FIsDeleted%20eq%20false)%20and%20(Properties/SqlInstancesCount%20gt%200)" -f $SubscriptionID, $ResourceGroup, $Project
@@ -1702,7 +1702,117 @@ $stopwatch.Stop()
 Write-Host "Assessments Creation Completed"
 }
       
+function Create-Bulk-IIS-Assessments {
+    param (
+       [Parameter(Mandatory = $true)][string]$Token,
+       [Parameter(Mandatory = $true)][string]$SubscriptionID,
+       [Parameter(Mandatory = $true)][string]$ProjectName,
+       [Parameter(Mandatory = $true)][string]$ResourceGroup,
+       [Parameter(Mandatory = $true)][string]$groupname,
+       [Parameter(Mandatory = $true)] [ValidateSet('Appliance','Import')][string]$DiscoverySource
 
+    )
+    $token = Get-AzCachedAccessToken
+    if ($DiscoverySource -eq "Appliance") {
+        $Source = ""
+        }
+        elseif ($DiscoverySource -eq "Import")
+         {
+            $Source = "_CSV"
+        }
+    
+  # Create VM assessments for the new group using our assessment templates      
+        Write-Host "Creating VM Assessments for $($groupname)"  -ForegroundColor Yellow 
+        $Assessmentstobecreated = @(
+            'IIS_PAYG_NoIsolation'
+            'IIS_1 Year RI'
+            'IIS_1 Year RI_Isolated'
+            #'IIS_1 Year RI_NoIsolation'
+            #'IIS_3 Year RI_Isolated'
+            #'IIS_3 Year RI_NoIsolation'
+            #'IIS_PAYG_Isolation'
+        )
+$Assessmentstobecreated |  ForEach-Object {
+    Write-host $_ -ForegroundColor Yellow ; 
+    $Assessmnetname = $_ + $($source); 
+    $filename = ".\Assessments\"+"IIS\"+$_ + ".json"; 
+   # Write-host $filename ;
+   $Assessment =New-AzureMigrateIISAssessment -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $ResourceGroup -Project $ProjectName -AssessmentName $($Assessmnetname) -Group $groupname -AssessmentProperties $($filename)
+}
+
+$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
+
+Write-Host "Waiting 60 Secconds for Assessment Creation to complete" -f Yellow
+Sleep-Progress 60
+
+$status = Get-Assessment-Status -Token $token -SubscriptionID $subscriptionid -ResourceGroup $rg -Project $project_name -list_of_unique_assessment_statuses_only
+while ($status.Contains('Running') -or $status.Contains('Computing') -or $status.Contains('Updating')) {
+    Start-Sleep -Seconds 60
+    $status = Get-Assessment-Status -Token $token -SubscriptionID $subscriptionid -ResourceGroup $rg -Project $project_name -list_of_unique_assessment_statuses_only
+    [math]::Round($stopwatch.Elapsed.TotalMinutes,1).ToString() + ' minutes'
+}
+
+$stopwatch.Stop()
+
+$Assessmentstobecreated = @(
+            
+    #'IIS_PAYG_NoIsolation'
+    #'IIS_1 Year RI'
+    #'IIS_1 Year RI_Isolated'
+    'IIS_1 Year RI_NoIsolation'
+    'IIS_3 Year RI_Isolated'
+    'IIS_3 Year RI_NoIsolation'
+    #'IIS_PAYG_Isolation'
+        )
+$Assessmentstobecreated |  ForEach-Object {
+    Write-host $_ -ForegroundColor Yellow ; 
+    $Assessmnetname = $_ + $($source); 
+    $filename = ".\Assessments\"+"IIS\"+$_ + ".json"; 
+    #Write-host $filename ;
+    $Assessment =New-AzureMigrateIISAssessment -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $ResourceGroup -Project $ProjectName -AssessmentName $($Assessmnetname) -Group $groupname -AssessmentProperties $($filename)
+}
+
+$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
+
+Write-Host "Waiting 60 Secconds for Assessment Creation to complete" -f Yellow
+Sleep-Progress 60
+
+$status = Get-Assessment-Status -Token $token -SubscriptionID $subscriptionid -ResourceGroup $rg -Project $project_name -list_of_unique_assessment_statuses_only
+while ($status.Contains('Running') -or $status.Contains('Computing') -or $status.Contains('Updating')) {
+    Start-Sleep -Seconds 60
+    $status = Get-Assessment-Status -Token $token -SubscriptionID $subscriptionid -ResourceGroup $rg -Project $project_name -list_of_unique_assessment_statuses_only
+    [math]::Round($stopwatch.Elapsed.TotalMinutes,1).ToString() + ' minutes'
+}
+
+$stopwatch.Stop()
+
+$Assessmentstobecreated = @(
+            
+         
+    #'IIS_PAYG_NoIsolation'
+    #'IIS_1 Year RI'
+    #'IIS_1 Year RI_Isolated'
+    #'IIS_1 Year RI_NoIsolation'
+    #'IIS_3 Year RI_Isolated'
+    #'IIS_3 Year RI_NoIsolation'
+    'IIS_PAYG_Isolation'
+        )
+$Assessmentstobecreated |  ForEach-Object {
+    Write-host $_ -ForegroundColor Yellow ; 
+    $Assessmnetname = $_ + $($source); 
+    $filename = ".\Assessments\"+"IIS\"+$_ + ".json"; 
+    #Write-host $filename ;
+    $Assessment =New-AzureMigrateIISAssessment -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $ResourceGroup -Project $ProjectName -AssessmentName $($Assessmnetname) -Group $groupname -AssessmentProperties $($filename) | out-null;
+
+}
+
+$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
+
+Write-Host "Waiting 90 Secconds for Assessment Creation to complete" -f Yellow
+Sleep-Progress 90
+
+Write-Host "Assessments Creation Completed"
+}
 
 
 
@@ -2331,7 +2441,7 @@ function New-AzureMigrateSQLAssessment {
     )
 
     #$obj = @()
-    $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentprojects/{2}/groups/{3}/SqlAssessments/{4}?api-version=2020-05-01-preview" -f $SubscriptionID, $ResourceGroup, $Project, $Group, $AssessmentName
+    $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentprojects/{2}/groups/{3}/SqlAssessments/{4}?api-version=2022-02-02-preview" -f $SubscriptionID, $ResourceGroup, $Project, $Group, $AssessmentName
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $Token")
@@ -2339,6 +2449,35 @@ function New-AzureMigrateSQLAssessment {
     $jsonPayload = Get-Content $AssessmentProperties
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "PUT" -Body $jsonPayload  #-Verbose
+    #$obj += $response.Substring(1) | ConvertFrom-Json
+    #return (_formatResult -obj $obj -type "AzureMigrateProject")
+    return $response
+
+}
+
+function New-AzureMigrateIISAssessment {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $true)][string]$Token,
+        [Parameter(Mandatory = $true)][string]$SubscriptionID,
+        [Parameter(Mandatory = $true)][string]$ResourceGroup,
+        [Parameter(Mandatory = $true)][string]$Project,
+        [Parameter(Mandatory = $true)][string]$Group,
+        [Parameter(Mandatory = $true)][string]$AssessmentName,
+        [Parameter(Mandatory = $true)][string]$AssessmentProperties
+    )
+
+
+
+    #$obj = @()
+    $url = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Migrate/assessmentprojects/{2}/groups/{3}/webAppAssessments/{4}?api-version=2020-05-01-preview" -f $SubscriptionID, $ResourceGroup, $Project, $Group, $AssessmentName
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $Token")
+
+    $jsonPayload = Get-Content $AssessmentProperties
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "PUT" -Body $jsonPayload #-Verbose
     #$obj += $response.Substring(1) | ConvertFrom-Json
     #return (_formatResult -obj $obj -type "AzureMigrateProject")
     return $response

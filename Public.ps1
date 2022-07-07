@@ -379,6 +379,7 @@ elseif ($login_via_ADO -eq $false) {
     $discoveredSQLmachines = Get-AzureMigrateDiscoveredMachine -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $rg -Project $project_name -SQL
     $discoveredAVSmachines = Get-AzureMigrateDiscoveredMachine -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $rg -Project $project_name -AVS
     $discoveredCSVmachines = Get-AzureMigrateDiscoveredMachine -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $rg -Project $project_name -Import
+    $discoveredIISmachines = Get-AzureMigrateDiscoveredMachine -Token $token -SubscriptionID $SubscriptionID -ResourceGroup $rg -Project $project_name -IIS
     if ($discoveredmachines.count -ge 1000) {
         Write-host "More then 1000 VM Machines dectected, Setting Assessment Time Range to Weekly to impove peformance" -ForegroundColor Red
     $timerangeVM = "Weekly"
@@ -453,6 +454,8 @@ $Download_Assessments_from_Group= $false
 $Remove_Outdated_Assessments = $false
 $Remove_All_VM_Assessments = $false
 $Remove_All_SQL_Assessments = $false
+$CreateSQLAssessments = $false
+$CreateVMAssessments = $false
 Clear-Host
 
 
@@ -472,11 +475,8 @@ switch ($assessment_output_choices)
     "Enable Application Depdedancy"{$Enable_Depdedancy=$true}
     "Get Full API Data (EnumerateMachines)"{$Export_Full_API_Dump = $true}
 
-    "Download Assessments from Group"{$Download_Assessments_from_Group=$true}
-    "Remove Assessments from Group"{$Remove_Assessments_from_Group= $true}
-    #"Remove Outdated Assessments"{$Remove_Outdated_Assessments = $true}
-    "Remove All VM Assessments"{$Remove_All_VM_Assessments  =$true}
-    "Remove All SQL Assessments"{$Remove_All_SQL_Assessments  = $true}
+    "Create SQL Assessments"{$CreateSQLAssessments=$true}
+
 
     "Open Customer Folder"{Write-Host "The last Export date was $($dts_stamp)";Invoke-Item $path_to_Customers_folder\$containername}
     "Quit"{$quit = "y";exit}
@@ -1204,5 +1204,6 @@ if ($Remove_All_SQL_Assessments-eq $true) {
     Remove-Bulk-SQL-Assessments -Token $token -SubscriptionID $SubscriptionID -ProjectName $project_name -ResourceGroup $rg -groupname $Group_Select.name 
 
 }
+
 
 }

@@ -1,12 +1,12 @@
-import-module E:\repo\AzureMigrateFunction\Module\V2SQL.psm1 -force
-import-module E:\repo\AzureMigrateFunction\Module\AzMigrate.psm1 -force -Prefix old
-
+import-module E:\Repo\AzureMigrateDownloader\Module\V2SQL.psm1 -force
+import-module E:\repo\AzureMigrateDownloader\Module\AzMigrate.psm1 -force -Prefix old
+Connect-AzAccount -Subscription $SubscriptionID
 $token = Get-AzCachedAccessToken
 
-$SubscriptionID = "cb9bc043-5d05-480b-96fd-30cfd19877b1"
-$rg = "RG-UKHSA-UKS-AZ-MIGRATION"
-$project_name = "AzureMigCOL017808project"
-$project_friendly_name = "BigRock-Optimisation"
+$SubscriptionID = "14e358aa-2517-40d5-992c-393b84b4e9801"
+$rg = "UKS-RSG-AZMIGRATE-SH"
+$project_name = "CIS-VCNTR-019406project"
+$project_friendly_name = "Assessment-2022"
 $groupname = "All_Machines_SQL"
 $assessmentname = "SQL_Perf PAYG"
 

@@ -1,20 +1,36 @@
-
 {
-"properties": {
-    "azureLocation": "uksouth", 
-    "azureOfferCode": "MSAZR0003P", 
-    "azureSqlServiceTier": "Automatic",
-    "azureSqlTargetType": "Recommended", 
-     "currency": "GBP", 
-     "discountPercentage": 0, 
-     "percentile": "Percentile95", 
-     "reservedInstance": "RI1Year", 
-     "scalingFactor": 1, 
-     "sizingCriterion": "PerformanceBased", 
-     "sqlServerLicense": "No", 
-     "timeRange": "Week",
-     "eTag": "*"
-    
-    }
-
-}
+    "properties": {
+       "azureLocation": "uksouth",
+       "scalingFactor": 1,
+       "percentile": "Percentile95",
+       "timeRange": "Week",
+       "currency": "USD",
+       "discountPercentage": 0,
+       "sizingCriterion": "PerformanceBased",
+       "reservedInstance": "RI1Year",
+       "azureOfferCode": "MSAZR0003P",
+       "sqlServerLicense": "No",
+       "osLicense": "No",
+       "azureSqlVmSettings": {
+          "instanceSeries": [
+            
+          ]
+       },
+       "entityUptime": {
+          "daysPerMonth": 31,
+          "hoursPerDay": 24
+       },
+       "azureSqlManagedInstanceSettings": {
+          "azureSqlInstanceType": "SingleInstance",
+          "azureSqlServiceTier": "Automatic"
+       },
+       "azureSqlDatabaseSettings": {
+          "azureSqlComputeTier": "Provisioned",
+          "azureSqlPurchaseModel": "VCore",
+          "azureSqlServiceTier": "Automatic",
+          "azureSqlDataBaseType": "SingleDatabase"
+       },
+       "environmentType": "Production"
+    },
+    "eTag": "*"
+ }
